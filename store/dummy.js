@@ -1,6 +1,7 @@
 const db = {
       'user': [
-            {id: "1", name: 'luis'}
+            {id: "1", name: 'jorge'},
+            {id: "2", name: 'luis'}
       ]
 };
 
@@ -13,17 +14,42 @@ async function get(table, id){
       return col.filter(item => item.id === id)[0] || null
 }
 
-async function upsert(table, data){
-      db[table].push(data)
+async function insert(table, data){
+      return await db[table].push(data)
 }
 
-async function remove(table, id){
-      return true
+function update(table, data){
+      return new Promise(async (resolve,reject)=> {
+            let col = await list(table)
+            col.filter(item =>{
+                  if(item.id === data.id){
+                        item.name = data.name
+                        resolve(item)
+                  }
+            })
+            reject('Algo salio mal')
+      })
+}
+
+function remove(table, id){
+      return new Promise(async (resolve,reject) =>{
+            let col = await list(table)
+            let cont = 0
+            await col.filter(item => {
+                  if(item.id===id){
+                        col.splice(cont,1)
+                        resolve(`usuario ${item.id} elimunado`)
+                  }
+                  cont++
+            })
+            reject('Error al eliminar al usuario')
+      })
 }
 
 module.exports ={
       list,
       get, 
-      upsert,
+      insert,
+      update,
       remove,
 }

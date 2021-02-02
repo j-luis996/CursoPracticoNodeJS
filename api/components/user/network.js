@@ -24,5 +24,28 @@ router.get('/:id', function (req,res){
              })
       
 })
-
+router.post('/inset',function (req, res){
+      controller.insert(req.body)
+            .then((data)=>{
+                  response.success(req, res, data, 200)
+            }).catch((error) => {
+                  response.error(req,res,error,500)
+             })
+})
+router.patch('/update',function(req, res){
+      controller.update(req.body)
+            .then((data)=>{
+                  response.success(req, res, data, 200)
+            }).catch((error) => {
+                  response.error(req,res,error,500)
+            })
+})
+router.delete('/delete',function(req, res){
+      controller.remove(req.body.id)
+            .then((data)=>{
+                  response.success(req, res, data, 200)
+            }).catch((error) => {
+                  response.error(req,res,error,500)
+            })
+})
 module.exports = router
