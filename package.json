@@ -1,0 +1,23 @@
+{
+  "name": "CursoPracticoNodeJS",
+  "version": "1.0.0",
+  "description": "Este proyecto corresponde a los apuntes de: Curso Práctico de Nodejs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/j-luis996/CursoPracticoNodeJS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/j-luis996/CursoPracticoNodeJS/issues"
+  },
+  "homepage": "https://github.com/j-luis996/CursoPracticoNodeJS#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
