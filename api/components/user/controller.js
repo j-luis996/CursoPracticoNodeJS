@@ -1,12 +1,21 @@
 //Controller del user
-const store = require('../../../store/dummy')
+
 
 const TABLE = 'user'
 
-function list(){
-      return store.list(TABLE)
-}
-
-module.exports = {
-      list,
+module.exports = function (injecterStore){
+      let store = injecterStore
+      if(!store){
+            store = require('../../../store/dummy')
+      }
+      function list(){
+            return store.list(TABLE)
+      }
+      function get(id){
+            return store.get(TABLE, id)
+      }
+      return {
+            list,
+            get,
+      }
 }
