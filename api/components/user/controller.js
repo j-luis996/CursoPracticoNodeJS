@@ -1,5 +1,5 @@
 //Controller del user
-
+const { nanoid } = require("nanoid")
 const TABLE = 'user'
 
 module.exports = function (injecterStore){
@@ -13,8 +13,15 @@ module.exports = function (injecterStore){
       function get(id){
             return store.get(TABLE, id)
       }
-      function insert(data){
-            return store.insert(TABLE, data)
+      function insert(name){
+            if(!name){
+                  return store.insert(TABLE, null)
+            }
+            const user ={
+                  id: nanoid(),
+                  name
+            }
+            return store.insert(TABLE, user)
       }
       function update(data){
             return store.update(TABLE, data)

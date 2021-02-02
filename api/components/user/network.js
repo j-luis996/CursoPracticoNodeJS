@@ -25,7 +25,7 @@ router.get('/:id', function (req,res){
       
 })
 router.post('/inset',function (req, res){
-      controller.insert(req.body)
+      controller.insert(req.body.name)
             .then((data)=>{
                   response.success(req, res, data, 200)
             }).catch((error) => {

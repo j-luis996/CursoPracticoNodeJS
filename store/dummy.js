@@ -15,6 +15,9 @@ async function get(table, id){
 }
 
 async function insert(table, data){
+      if(!data){
+            return Promise.reject('Error al crear al usuario')
+      }
       return await db[table].push(data)
 }
 
