@@ -1,10 +1,14 @@
 //Network del user
 const express = require('express');
+
 const response = require('../../../newtork/response');
+const controller = require('./controller');
+
 const router = express.Router();
 
 router.get('/', function (req,res){
-      response.success(req, res, 'Todo funciona ok', 200)
+      const lista = controller.list();
+      response.success(req, res, lista, 200)
 })
 
 module.exports = router;
