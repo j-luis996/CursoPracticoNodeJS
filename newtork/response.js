@@ -1,4 +1,4 @@
-exports.success = (req, res, message = 'Ok', status = 201)=>{
+exports.success = (req, res, message = 'Ok', status = 201) => {
       res.status(status).send({
             error: false,
             status: status,
@@ -6,7 +6,7 @@ exports.success = (req, res, message = 'Ok', status = 201)=>{
       })
 }
 
-exports.error = (req, res, message = 'Internal Server Error', status = 500)=>{
+exports.error = (req, res, message = 'Internal Server Error', status = 500) => {
       res.status(status).send({
             error: false,
             status: status,

@@ -41,7 +41,7 @@ function remove(table, id){
             await col.filter(item => {
                   if(item.id===id){
                         col.splice(cont,1)
-                        resolve(`usuario ${item.id} elimunado`)
+                        resolve(`Usuario ${item.id} elimunado`)
                   }
                   cont++
             })

@@ -1,13 +1,13 @@
 const express = require ('express')
 
+const router = require('../newtork/routes')
 const config = require('../config')
-const user = require('./components/user/network')
 const app = express()
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/user',user)
+router(app)
 
 app.listen(config.api.port, () => {
       console.log(`Servidor escuchando en el puerto ${config.api.port}`)

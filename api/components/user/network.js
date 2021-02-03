@@ -6,7 +6,13 @@ const controller = require('./index');
 
 const router = express.Router();
 
-router.get('/', function (req,res){
+router.get('/', listarUsuarios)
+router.get('/:id', obtenerUsuario)
+router.post('/inset', crearUsuario)
+router.patch('/update',actualizarUsuario)
+router.delete('/delete',eliminarUsuario)
+
+function listarUsuarios(req,res){
       controller.list()
             .then((lista) => {
                   response.success(req, res, lista, 200);
@@ -14,8 +20,9 @@ router.get('/', function (req,res){
                   response.error(req,res,error.message,500)
              });
       
-})
-router.get('/:id', function (req,res){
+}
+
+function obtenerUsuario(req,res){
       controller.get(req.params.id)
             .then((user) => {
                   response.success(req, res, user, 200)
@@ -23,29 +30,32 @@ router.get('/:id', function (req,res){
                   response.error(req,res,error.message,500)
              })
       
-})
-router.post('/inset',function (req, res){
+}
+
+function crearUsuario(req, res){
       controller.insert(req.body.name)
             .then((data)=>{
                   response.success(req, res, data, 200)
             }).catch((error) => {
                   response.error(req,res,error,500)
              })
-})
-router.patch('/update',function(req, res){
+}
+
+function actualizarUsuario(req, res){
       controller.update(req.body)
             .then((data)=>{
                   response.success(req, res, data, 200)
             }).catch((error) => {
                   response.error(req,res,error,500)
             })
-})
-router.delete('/delete',function(req, res){
+}
+
+function eliminarUsuario (req, res){
       controller.remove(req.body.id)
             .then((data)=>{
                   response.success(req, res, data, 200)
             }).catch((error) => {
                   response.error(req,res,error,500)
             })
-})
+}
 module.exports = router
