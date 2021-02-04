@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/j-luis996/CursoPracticoNodeJS#readme",
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "express": "^4.17.1",
     "nanoid": "^3.1.20"
   }

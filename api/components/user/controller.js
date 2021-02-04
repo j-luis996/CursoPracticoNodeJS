@@ -1,39 +1,74 @@
 //Controller del user
 const { nanoid } = require("nanoid")
+const bcrypt = require('bcrypt')
+
+const config = require('../../../config')
+const auth = require('../auth')
+
 const TABLE = 'user'
 
 module.exports = function (injecterStore){
       let store = injecterStore
+
       if(!store){
             store = require('../../../store/dummy')
       }
+
       function list(){
             return store.list(TABLE)
       }
+      
       function get(id){
             return store.get(TABLE, id)
       }
-      function insert(name){
-            if(!name){
-                  return store.insert(TABLE, null)
+
+      async function upsert(data){
+            let newUser = {}
+            let newAuth = {}
+
+            if(data.id){
+                  newUser.id = data.id
+                  newAuth.id = data.id
             }
-            const user ={
-                  id: nanoid(),
-                  name
+            else{
+                  newUser.id = nanoid()
+                  newAuth.id = newUser.id
             }
-            return store.insert(TABLE, user)
+
+            if(data.name){
+                  newUser.name = data.name
+            }
+            
+            if(data.username){
+                  newUser.username = data.username
+                  newAuth.username = data.username
+            }
+
+            if(data.passwd){
+                  await bcrypt.hash(data.passwd,config.api.saltRounds)
+                        .then((result) => {
+                              newAuth.passwd = result
+                        }).catch(error =>{
+                              console.log(error)
+                        })
+            
+            }   
+            
+            if(data.passwd || data.username){
+                  await auth.upsert(newAuth)
+                  
+            }
+            return store.upsert(TABLE, newUser)
       }
-      function update(data){
-            return store.update(TABLE, data)
-      }
+
       function remove(id){
             return store.remove(TABLE,id)
       }
+
       return {
             list,
             get,
-            insert,
-            update,
+            upsert,
             remove,
       }
 }

@@ -1,4 +1,4 @@
-//index del user
+//index de auth
 const controller = require('./controller')
 const store = require('../../../store/dummy')
 

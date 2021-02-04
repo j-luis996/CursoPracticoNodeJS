@@ -8,8 +8,7 @@ const router = express.Router();
 
 router.get('/', listarUsuarios)
 router.get('/:id', obtenerUsuario)
-router.post('/inset', crearUsuario)
-router.patch('/update',actualizarUsuario)
+router.post('/upsert', upsertUser)
 router.delete('/delete',eliminarUsuario)
 
 function listarUsuarios(req,res){
@@ -32,22 +31,13 @@ function obtenerUsuario(req,res){
       
 }
 
-function crearUsuario(req, res){
-      controller.insert(req.body.name)
-            .then((data)=>{
-                  response.success(req, res, data, 200)
-            }).catch((error) => {
+function upsertUser(req, res){
+      controller.upsert(req.body)
+            .then((data) => {
+                        response.success(req, res, data, 200);
+                  }).catch((error) => {
                   response.error(req,res,error,500)
              })
-}
-
-function actualizarUsuario(req, res){
-      controller.update(req.body)
-            .then((data)=>{
-                  response.success(req, res, data, 200)
-            }).catch((error) => {
-                  response.error(req,res,error,500)
-            })
 }
 
 function eliminarUsuario (req, res){

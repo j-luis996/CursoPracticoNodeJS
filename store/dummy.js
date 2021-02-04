@@ -1,7 +1,6 @@
 const db = {
       'user': [
             {id: "1", name: 'jorge'},
-            {id: "2", name: 'luis'}
       ]
 };
 
@@ -14,11 +13,13 @@ async function get(table, id){
       return col.filter(item => item.id === id)[0] || null
 }
 
-async function insert(table, data){
-      if(!data){
-            return Promise.reject('Error al crear al usuario')
+async function upsert(tabla, data){
+      console.log(data)
+      if(!db[tabla]){
+            db[tabla] = []
       }
-      return await db[table].push(data)
+      db[tabla].push(data)
+      console.log(db)
 }
 
 function update(table, data){
@@ -26,7 +27,12 @@ function update(table, data){
             let col = await list(table)
             col.filter(item =>{
                   if(item.id === data.id){
-                        item.name = data.name
+                        if(data.name){
+                              item.name = data.name
+                        }
+                        if(data.passwd){
+                              item.passwd = data.passwd
+                        }
                         resolve(item)
                   }
             })
@@ -52,7 +58,7 @@ function remove(table, id){
 module.exports ={
       list,
       get, 
-      insert,
+      upsert,
       update,
       remove,
 }
