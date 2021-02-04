@@ -56,12 +56,16 @@ module.exports = function (injecterStore){
             
             if(data.passwd || data.username){
                   await auth.upsert(newAuth)
-                  
             }
             return store.upsert(TABLE, newUser)
       }
 
-      function remove(id){
+      async function remove(id){
+            try {
+                  await auth.remove(id)
+            } catch (error) {
+                  console.log(error)
+            }           
             return store.remove(TABLE,id)
       }
 

@@ -1,5 +1,3 @@
-const auth = require('.')
-
 //controlador de auth
 const TABLE = 'auth'
 module.exports = function (injecterStore){
@@ -24,7 +22,12 @@ module.exports = function (injecterStore){
             store.upsert(TABLE,authData)
       }
 
+      async function remove(id){
+            return await store.remove(TABLE,id)
+      }
+
       return {
-            upsert
+            upsert,
+            remove
       }
 }

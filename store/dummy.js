@@ -14,12 +14,13 @@ async function get(table, id){
 }
 
 async function upsert(tabla, data){
-      console.log(data)
       if(!db[tabla]){
             db[tabla] = []
       }
-      db[tabla].push(data)
-      console.log(db)
+      update(tabla, data).catch(()=>{
+            db[tabla].push(data)
+      })
+      // return true
 }
 
 function update(table, data){
@@ -29,6 +30,9 @@ function update(table, data){
                   if(item.id === data.id){
                         if(data.name){
                               item.name = data.name
+                        }
+                        if(data.username){
+                              item.username = data.username
                         }
                         if(data.passwd){
                               item.passwd = data.passwd
@@ -44,13 +48,18 @@ function remove(table, id){
       return new Promise(async (resolve,reject) =>{
             let col = await list(table)
             let cont = 0
-            await col.filter(item => {
-                  if(item.id===id){
-                        col.splice(cont,1)
-                        resolve(`Usuario ${item.id} elimunado`)
-                  }
-                  cont++
-            })
+            try {
+                  await col.filter(item => {
+                        if(item.id===id){
+                              col.splice(cont,1)
+                              console.log(db)
+                              resolve(`Usuario ${item.id} elimunado`)
+                        }
+                        cont++
+                  })
+            } catch (error) {
+                  reject('Error al eliminar al usuario')
+            }
             reject('Error al eliminar al usuario')
       })
 }
