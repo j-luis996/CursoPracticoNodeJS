@@ -10,7 +10,7 @@ module.exports = function (injecterStore){
       if(!store){
             store = require('../../../store/dummy')
       }
-      function upsert(data){
+      async function upsert(data){
             const authData= {
                   id: data.id
             }
@@ -20,6 +20,10 @@ module.exports = function (injecterStore){
             }
 
             if(data.passwd){
+                  /**Nota
+                   * en este caso yo guardo la contraseña directamente por que el cifrado lo realicé en 
+                   * el controller de usuario, al llegar aquí la contraseña ya es solo un hash
+                   */
                   authData.passwd = data.passwd
             }
             
@@ -33,6 +37,12 @@ module.exports = function (injecterStore){
       async function login(username, passwd){
             const data = await store.query(TABLE, {username: username})
             let token
+            /**
+             * como nota, tuve varios problemas para retornar el token, ya que estaba
+             * retornando el toquen desde dentro de la promesa de bcrypt y no retornaba nada
+             * en la clase del curso el profesor retorna el bcrypt completo para poner el return
+             * dentro de la promesa
+             */
             await bcrypt.compare(passwd, data.passwd)
                   .then((result)=>{
                         if(result){
@@ -45,7 +55,7 @@ module.exports = function (injecterStore){
                   }).catch(error =>{
                         throw new Error('informacion invalida')
                   })
-                  return token
+            return token
       }
       return {
             upsert,

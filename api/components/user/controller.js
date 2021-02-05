@@ -43,13 +43,17 @@ module.exports = function (injecterStore){
                   newUser.username = data.username
                   newAuth.username = data.username
             }
-
+            /**
+             * en este caso el cifrado de la contraseña la realizo aquí, 
+             * en los videos del curso el profesor realiza el cifrado dentro
+             * del controller de auth pero #YOLO XD
+             */
             if(data.passwd){
                   await bcrypt.hash(data.passwd,config.api.saltRounds)
                         .then((result) => {
                               newAuth.passwd = result
                         }).catch(error =>{
-                              console.log(error)
+                              console.error(error)
                         })
             
             }   
@@ -64,7 +68,7 @@ module.exports = function (injecterStore){
             try {
                   await auth.remove(id)
             } catch (error) {
-                  console.log(error)
+                  console.error(error)
             }           
             return store.remove(TABLE,id)
       }
