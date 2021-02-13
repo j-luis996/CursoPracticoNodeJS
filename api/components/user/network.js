@@ -15,41 +15,33 @@ router.post('/upsert', upsertUser)
 router.put('/update', secure('update'),upsertUser)
 router.delete('/delete',eliminarUsuario)
 
-function listarUsuarios(req,res){
+function listarUsuarios(req,res, next){
       controller.list()
             .then((lista) => {
                   response.success(req, res, lista, 200);
-            }).catch((error) => {
-                  response.error(req,res,error.message,500)
-             });
-      
+            }).catch(next);
+      //la funcion next se incluye en los middlewre de expres por defecto
 }
 
-function obtenerUsuario(req,res){
+function obtenerUsuario(req,res, next){
       controller.get(req.params.id)
             .then((user) => {
                   response.success(req, res, user, 200)
-            }).catch((error) => {
-                  response.error(req,res,error.message,500)
-             })
+            }).catch(next)
       
 }
 
-function upsertUser(req, res){
+function upsertUser(req, res, next){
       controller.upsert(req.body)
             .then((data) => {
                         response.success(req, res, data, 200);
-                  }).catch((error) => {
-                        response.error(req,res,error,500)
-             })
+                  }).catch(next)
 }
 
-function eliminarUsuario (req, res){
+function eliminarUsuario (req, res, next){
       controller.remove(req.body.id)
             .then((data)=>{
                   response.success(req, res, data, 200)
-            }).catch((error) => {
-                  response.error(req,res,error,500)
-            })
+            }).catch(next)
 }
 module.exports = router
