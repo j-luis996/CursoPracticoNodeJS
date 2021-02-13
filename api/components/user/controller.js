@@ -25,7 +25,6 @@ module.exports = function (injecterStore){
       async function upsert(data){
             let newUser = {}
             let newAuth = {}
-
             if(data.id){
                   newUser.id = data.id
                   newAuth.id = data.id
@@ -57,7 +56,6 @@ module.exports = function (injecterStore){
                         })
             
             }   
-            
             if(data.passwd || data.username){
                   await auth.upsert(newAuth)
             }

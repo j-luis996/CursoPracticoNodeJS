@@ -4,7 +4,13 @@ const config = require('../config')
 const errors = require('../utils/error')
 
 function sing(data){
-      return jwt.sign(data, config.auth.palabraSecreta)
+      let prueba
+      try {
+            prueba = jwt.sign(JSON.stringify(data), config.auth.palabraSecreta)
+      } catch (error) {
+            console.error(error)
+      }
+      return prueba
 }
 
 function verify(token){
@@ -14,8 +20,7 @@ function verify(token){
 const check = {
       own: function (req,owner){
             const decoded = decodeHeader(req)
-            console.log(decoded)
-            
+           
             if(decoded.id !== owner){
                   throw errors('No puedes acceder a esto',401)
             }

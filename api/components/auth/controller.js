@@ -43,6 +43,7 @@ module.exports = function (injecterStore){
              * en la clase del curso el profesor retorna el bcrypt completo para poner el return
              * dentro de la promesa
              */
+            
             await bcrypt.compare(passwd, data.passwd)
                   .then((result)=>{
                         if(result){
