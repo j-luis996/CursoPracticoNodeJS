@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
 
 const config = require('../config')
+const errors = require('../utils/error')
 
 function sing(data){
       return jwt.sign(data, config.auth.palabraSecreta)
@@ -16,17 +17,17 @@ const check = {
             console.log(decoded)
             
             if(decoded.id !== owner){
-                  throw new Error('No puedes acceder a esto')
+                  throw errors('No puedes acceder a esto',401)
             }
       }
 }
 
 function getToken(auth){
       if(!auth){
-            throw new Error('no hay token')
+            throw errors('Autenticacion fallida',400)
       }
       if(auth.indexOf('Bearer ')===-1){
-            throw new Error('formato invalido')
+            throw errors('Formato no valido',400)
       }
       let token = auth.replace('Bearer ','')
       return token
