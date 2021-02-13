@@ -18,23 +18,23 @@ function verify(token){
 }
 
 const check = {
-      own: function (req,owner){
+      own: function (req, owner){
             const decoded = decodeHeader(req)
            
             if(decoded.id !== owner){
-                  throw errors('No puedes acceder a esto',401)
+                  throw errors('No puedes acceder a esto', 401)
             }
       }
 }
 
 function getToken(auth){
       if(!auth){
-            throw errors('Autenticacion fallida',400)
+            throw errors('Autenticacion fallida', 400)
       }
-      if(auth.indexOf('Bearer ')===-1){
-            throw errors('Formato no valido',400)
+      if(auth.indexOf('Bearer ') === -1){
+            throw errors('Formato no valido', 400)
       }
-      let token = auth.replace('Bearer ','')
+      let token = auth.replace('Bearer ', '')
       return token
 }
 

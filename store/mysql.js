@@ -9,22 +9,22 @@ const dbconfig = {
       database: config.mysql.database,
 }
 
-let connection;
+let connection
 
 function handleCon(){
       connection = mysql.createConnection(dbconfig)
 
-      connection.connect((err)=>{
+      connection.connect((err) => {
             if (err){
                   console.error('[db err]', err)
-                  setTimeout(handleCon,2000)
+                  setTimeout(handleCon, 2000)
             }
             else{
                   console.log('db conectada')
             }
       })
 
-      connection.on('error', err =>{
+      connection.on('error', err => {
             console.error('[db err]', err)
             if(err.code==='PROTOCOL_CONNECTION_LOST'){
                   handleCon()
@@ -37,8 +37,8 @@ function handleCon(){
 handleCon()
 
 function list(table){
-      return new Promise((resolve,reject)=>{
-            connection.query(`SELECT * FROM ${table};`, (err,data)=>{
+      return new Promise((resolve, reject)=>{
+            connection.query(`SELECT * FROM ${table};`, (err, data) => {
                   if(err){
                         return reject(err)
                   }
@@ -48,8 +48,8 @@ function list(table){
 }
 
 function get(table, id){
-      return new Promise((resolve,reject)=>{
-            connection.query(`SELECT * FROM ${table} WHERE id='${id}';`, (err,data)=>{
+      return new Promise((resolve, reject) => {
+            connection.query(`SELECT * FROM ${table} WHERE id='${id}';`, (err, data) => {
                   if(err){
                         return reject(err)
                   }
@@ -60,8 +60,8 @@ function get(table, id){
 }
 
 function insert(table, data){
-      return new Promise((resolve,reject)=>{
-            connection.query(`INSERT INTO ${table} SET ?`, data,(err, result)=>{
+      return new Promise((resolve, reject) => {
+            connection.query(`INSERT INTO ${table} SET ?`, data,(err, result) => {
                   if(err){
                         return reject(err)
                   }
@@ -72,8 +72,8 @@ function insert(table, data){
 }
 
 function update(table, data){
-      return new Promise((resolve,reject)=>{
-            connection.query(`UPDATE ${table} SET ? WHERE id=?`, [data, data.id],(err, result)=>{
+      return new Promise((resolve, reject) => {
+            connection.query(`UPDATE ${table} SET ? WHERE id=?`, [data, data.id], (err, result) => {
                   if(err){
                         return reject(err)
                   }
@@ -84,8 +84,9 @@ function update(table, data){
 }
 
 function upsert(table, data){
-      //a qui hay un error, siempre entra al update
-      get(table,data.id).then((res)=>{
+      //Resolví el error contando el numero de resultados que trae la funcion get()
+      //si trae 0 el dato no existe y debe insertarlo, sí no actualiza
+      get(table,data.id).then((res) => {
             console.log('numero resultados', res.length)
             if(res.length === 0){
                   console.log('entré a insertar')
@@ -99,8 +100,8 @@ function upsert(table, data){
 }
 
 function query(table, q){
-      return new Promise((resolve, reject)=>{
-            connection.query(`SELECT * FROM ${table} WHERE ?`, q, (err, res)=>{
+      return new Promise((resolve, reject) => {
+            connection.query(`SELECT * FROM ${table} WHERE ?`, q, (err, res) => {
                   if(err){
                         return reject(err)
                   }
@@ -109,9 +110,9 @@ function query(table, q){
       })
 }
 
-function remove(table,id){
-      return new Promise((resolve,reject)=>{
-            connection.query(`DELETE FROM ${table} WHERE id='${id}'`,(err, result)=>{
+function remove(table, id){
+      return new Promise((resolve, reject) => {
+            connection.query(`DELETE FROM ${table} WHERE id='${id}'`, (err, result) => {
                   if(err){
                         return reject(err)
                   }

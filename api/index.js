@@ -3,11 +3,11 @@ const express = require ('express')
 
 const router = require('../newtork/routes')
 const config = require('../config');
-const errors = require('../newtork/error');
+const errors = require('../newtork/error')
 const app = express()
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 router(app)
 

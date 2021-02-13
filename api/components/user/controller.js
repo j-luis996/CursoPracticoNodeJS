@@ -51,7 +51,7 @@ module.exports = function (injecterStore){
                   await bcrypt.hash(data.passwd,config.api.saltRounds)
                         .then((result) => {
                               newAuth.passwd = result
-                        }).catch(error =>{
+                        }).catch(error => {
                               console.error(error)
                         })
             

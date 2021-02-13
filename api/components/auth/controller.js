@@ -11,7 +11,7 @@ module.exports = function (injecterStore){
             store = require('../../../store/dummy')
       }
       async function upsert(data){
-            const authData= {
+            const authData = {
                   id: data.id
             }
 
@@ -27,7 +27,7 @@ module.exports = function (injecterStore){
                   authData.passwd = data.passwd
             }
             
-            store.upsert(TABLE,authData)
+            store.upsert(TABLE, authData)
       }
 
       async function remove(id){
@@ -45,7 +45,7 @@ module.exports = function (injecterStore){
              */
             
             await bcrypt.compare(passwd, data.passwd)
-                  .then((result)=>{
+                  .then((result) => {
                         if(result){
                               token = auth.sing(data)
                         }else{
@@ -53,7 +53,7 @@ module.exports = function (injecterStore){
                               throw new Error('informacion invalida')
                         }
                         
-                  }).catch(error =>{
+                  }).catch(error => {
                         throw new Error('informacion invalida')
                   })
             return token
