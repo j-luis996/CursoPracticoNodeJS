@@ -14,6 +14,10 @@ const check = {
       own: function (req,owner){
             const decoded = decodeHeader(req)
             console.log(decoded)
+            
+            if(decoded.id !== owner){
+                  throw new Error('No puedes acceder a esto')
+            }
       }
 }
 
@@ -38,4 +42,5 @@ function decodeHeader(req){
 }
 module.exports = {
       sing,
+      check
 }

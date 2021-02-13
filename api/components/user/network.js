@@ -1,16 +1,18 @@
 //Network del user
 const express = require('express');
 
+const secure = require('./secure')
 const response = require('../../../newtork/response');
 const { upsert } = require('../../../store/dummy');
 const controller = require('./index');
+
 
 const router = express.Router();
 
 router.get('/', listarUsuarios)
 router.get('/:id', obtenerUsuario)
 router.post('/upsert', upsertUser)
-router.put('/update', upsertUser)
+router.put('/update', secure('update'),upsertUser)
 router.delete('/delete',eliminarUsuario)
 
 function listarUsuarios(req,res){
