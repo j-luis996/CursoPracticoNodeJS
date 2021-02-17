@@ -10,6 +10,7 @@ const router = express.Router()
 
 router.get('/', listarUsuarios)
 router.post('/follow/:id', secure('follow'),follow)
+router.get('/:id/following', following)
 router.get('/:id', obtenerUsuario)
 router.post('/upsert', upsertUser)
 router.put('/update', secure('update'), upsertUser)
@@ -52,4 +53,12 @@ function follow (req, res, next){
                   response.success(req, res, data, 201)
             }).catch(next)
 }
+
+function following(req, res, next){
+      return controller.following(req.params.id)
+            .then((data) => {
+                  return response.success(req, res, data, 200)
+            }).catch(next)
+}
+
 module.exports = router

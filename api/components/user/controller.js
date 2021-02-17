@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 
 const config = require('../../../config')
 const auth = require('../auth')
+const user = require(".")
 
 const TABLE = 'user'
 
@@ -83,11 +84,20 @@ module.exports = function (injecterStore){
             })
       }
 
+      async function following(user){
+            const join = {}
+            join[TABLE] = 'user_to' //{ user: user_to }
+            const query = { user_from: user }
+
+            return await store.query(TABLE + '_follow', query, join)
+      }
+
       return {
             list,
             get,
             upsert,
             remove,
             follow,
+            following,
       }
 }
