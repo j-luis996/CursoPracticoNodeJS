@@ -71,10 +71,23 @@ module.exports = function (injecterStore){
             return store.remove(TABLE,id)
       }
 
+      function follow(from, to){
+            /**en esta parte el nombre de la tabla de forma de con el contenido de la variable TABLE + "_follow"
+             * esto por si queremos cambiar el nombre de esta tabla sea mas fácil, en el store pusimos una 
+             * condicion para evaluar si la tabla se llama user_follow, en caso de cambiar el nombre de la tabla user
+             * recuerde actualizar ese valor en el store
+             */
+            return store.upsert(TABLE + '_follow',{
+                  user_from: from,
+                  user_to: to
+            })
+      }
+
       return {
             list,
             get,
             upsert,
             remove,
+            follow,
       }
 }

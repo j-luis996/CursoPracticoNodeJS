@@ -24,7 +24,10 @@ const check = {
             if(decoded.id !== owner){
                   throw errors('No puedes acceder a esto', 401)
             }
-      }
+      },
+      logged: function (req){
+            const decoded = decodeHeader(req)
+      },
 }
 
 function getToken(auth){

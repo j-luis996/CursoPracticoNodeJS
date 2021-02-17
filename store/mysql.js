@@ -84,15 +84,20 @@ function update(table, data){
 }
 
 function upsert(table, data){
+      /**esta condicion se pone debido a que si llega a la funcion get(), dará error esto ya que no se envia un id para
+       * que get() realice una busqueda
+       * 
+       */
+      if(table==="user_follow"){
+            return insert(table, data)
+      }
       //Resolví el error contando el numero de resultados que trae la funcion get()
       //si trae 0 el dato no existe y debe insertarlo, sí no actualiza
       get(table,data.id).then((res) => {
-            console.log('numero resultados', res.length)
-            if(res.length === 0){
-                  console.log('entré a insertar')
+            console.log('dato'+data.id)
+            if(res.length === 0){ 
                   return insert(table, data)
             }else{
-                  console.log('entré a actualizar')
                   return update(table, data)
             }
       })
